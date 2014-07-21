@@ -1,0 +1,92 @@
+
+#map-canvas {
+
+    height: 90%;
+
+    width: 90%;
+
+    margin-bottom: 20px;
+
+}
+
+#protector {
+
+    left: 10px;
+
+    top: 90px;
+
+}
+
+.panel {
+
+    position: absolute;
+
+    margin-left: -180px;
+
+    width: 300px;
+
+    z-index: 5;
+
+    font: Arial;
+
+    background-color: #fff;
+
+    padding: 10px;
+
+    border: 1px solid #999;
+
+}
+
+.panel-item {
+
+    margin-bottom: 2px;
+
+    margin-top: 2px;
+
+}
+
+#pan1 {
+
+    top: 200px;
+
+    right: 2%;
+
+}
+
+#pan2 {
+
+    top: 400px;
+
+    right: 2%;
+
+}
+
+#pan3 {
+
+    top: 200px;
+
+    right: 2%;
+
+}
+
+.controls {
+
+    margin-top: 16px;
+
+    border: 1px solid transparent;
+
+    border-radius: 2px 0 0 2px;
+
+    box-sizing: border-box;
+
+    -moz-box-sizing: border-box;
+
+    height: 32px;
+
+    outline: none;
+
+    z-index: 99;
+
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+
+}

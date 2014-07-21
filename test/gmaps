@@ -1,0 +1,180 @@
+// Set up a collection to contain player information. On the server,
+// it is backed by a MongoDB collection named "players".
+
+Players = new Meteor.Collection("players");
+Markers = new Meteor.Collection("markers"); //lowercase -> Mongo
+newMarkers = [];
+tmp = [];
+
+if (Meteor.isClient) {
+    GoogleMaps.init({
+            'sensor': true, //optional
+            //'key': 'MY-GOOGLEMAPS-API-KEY', //optional
+            //'language': 'de' //optional
+        },
+        function() {
+            var haightAshbury = new google.maps.LatLng(37.7699298, -122.4469157);
+            var mapOptions = {
+                zoom: 12,
+                center: haightAshbury,
+            };
+            map = new google.maps.Map(document.getElementById('map-canvas'),
+                mapOptions);
+
+            google.maps.event.addListener(map, 'click', function(event) {
+                x(event.latLng);
+            });
+
+
+
+
+            curMarkers = Markers.find().fetch();
+            console.log("Populating the map with:  " + curMarkers.length);
+            if (curMarkers.length > 0) {
+                for (keys in curMarkers) {
+                    var dbMarker = new google.maps.Marker({
+                        position: {
+                            lat: curMarkers[keys].lat,
+                            lng: curMarkers[keys].lng
+                        },
+                        map: map
+                    });
+                    google.maps.event.addListener(curMarkers[keys]._id, 'click', function() {
+                        info(curMarkers[keys]._id);
+                    });
+
+                }
+                console.log('marker added to local map');
+            }
+
+        }
+    );
+
+    // Add a marker to the map and push to the array.
+    x = function addMarker(location) {
+        console.log("Your location is:  " + location);
+        $('<div/>').text(location).prepend($('<em/>').text("Your location" + ': ')).appendTo($('#map-canvas'));
+        var ans = prompt('save, bitch?');
+        if (ans == 'yes') {
+
+            var marker = new google.maps.Marker({
+                position: location,
+                map: map
+            });
+            newMarkers.push(marker); //add to new marker array
+            console.log('marker added to local map');
+        }
+    }
+
+
+    info = function infoView(id) {
+        infowindow = new google.maps.InfoWindow({
+            content: '<div id="content">' +
+                '<div id="siteNotice">' +
+                '</div>' +
+                '<h1 id="firstHeading" class="firstHeading">Uluru</h1>' +
+                '<div id="bodyContent">' +
+                '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
+                'sandstone rock formation in the southern part of the ' +
+                'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) ' +
+                'south west of the nearest large town, Alice Springs; 450&#160;km ' +
+                '(280&#160;mi) by road. Kata Tjuta and Uluru are the two major ' +
+                'features of the Uluru - Kata Tjuta National Park. Uluru is ' +
+                'sacred to the Pitjantjatjara and Yankunytjatjara, the ' +
+                'Aboriginal people of the area. It has many springs, waterholes, ' +
+                'rock caves and ancient paintings. Uluru is listed as a World ' +
+                'Heritage Site.</p>' +
+                '<p>Attribution: Uluru, <a href="http://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">' +
+                'http://en.wikipedia.org/w/index.php?title=Uluru</a> ' +
+                '(last visited June 22, 2009).</p>' +
+                '</div>' +
+                '</div>'
+        })
+        infowindow.open(map, id);
+    }
+
+
+
+    Template.map.greeting = function() {
+        return 'Map is loading';
+    }
+
+    Template.markerlist.all_markers = function() {
+        return Markers.find();
+    }
+
+
+    /* posRef.on('child_added', function(snapshot) {
+            var mymarker = snapshot.val();
+            displayMapMarkers(mymarker.firepos);
+          });
+    */
+
+
+    Template.panel.events({
+        'click #myAdd': function() {
+            if (newMarkers.length < 1) {
+                alert('none to save');
+            }
+            if (newMarkers.length > 0) {
+                for (keys in newMarkers) {
+                    tmp.push(newMarkers[keys])
+                    console.log(tmp[keys]);
+                    console.log("Position data is:  " + tmp[keys].position);
+                    var position = tmp[keys].position;
+                    var lat = tmp[keys].position.k;
+                    var lng = tmp[keys].position.B;
+                    var date = new Date();
+                    date = date.toJSON();
+                    Markers.insert({
+                        text: 'Something',
+                        //map_id: Session.get('list_id'),
+                        pos: position,
+                        lat: lat,
+                        lng: lng,
+                        date: date,
+                        //timestamp: (new Date()).getTime(),
+                    });
+                    curMarkers.push(newMarkers[keys]); //add to new marker array
+                }
+                alert('saved');
+                newMarkers = [];
+            }
+
+        }
+    });
+
+    Template.hello.events({
+        'click input': function() {
+            alert('pooop');
+        }
+    });
+
+    Template.hello.events({
+        'click #test': function() {
+            alert('peeper');
+        }
+    });
+
+}
+
+// On server startup, create some players if the database is empty.
+if (Meteor.isServer) {
+
+    Meteor.startup(function() {
+        if (Players.find().count() === 0) {
+            var names = ["Ada Lovelace",
+                "Grace Hopper",
+                "Marie Curie",
+                "Carl Friedrich Gauss",
+                "Nikola Tesla",
+                "Claude Shannon"
+            ];
+            for (var i = 0; i < names.length; i++)
+                Players.insert({
+                    name: names[i],
+                    score: Math.floor(Random.fraction() * 10) * 5
+                });
+        }
+    });
+}
