@@ -449,7 +449,7 @@ label.error { display: block; }
 #speakers .img-wrapper img { margin: 0 auto; }
 #speakers .name { font-size: 25px; margin: 10px 0 2px; }
 #speakers .sub { font-size: 18px; color: #fe4918; margin: 0 0 15px; }
-#speakers p { padding: 0 20px; margin-bottom: 15px; opacity: 0.7; }
+#speakers p { padding: 0 5px; margin-bottom: 15px; opacity: 0.7; }
 #speakers .social-link a {
   opacity: .3;
   color: #fff;
