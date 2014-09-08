@@ -116,7 +116,7 @@ hr.white { border-color: #F3AE9B; }
 .article-big p { margin-bottom: 20px; }
 
 /* Content */
-#hero { background: url('../img/header-bg.jpg') center center no-repeat;-webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; background-attachment: fixed; min-height: 500px; position: relative; overflow:hidden;}
+#hero { background: url('../img/berk-cover-3.jpg') center center no-repeat;-webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; background-attachment: fixed; min-height: 500px; position: relative; overflow:hidden;}
 #hero .container { position: static; }
 #hero .hero-content { position: relative; top: 50%; left: 0; right: 0;}
 #hero hr { width: 10%; border: 0; border-top: 1px solid #FFF; display: inline-block; }
@@ -198,7 +198,7 @@ hr.white { border-color: #F3AE9B; }
   background: #fff; }
 .navigation-toggle .icon-bar+.icon-bar { margin-top: 4px; }
 
-#stat, #newsletter { background: url('../img/stat-bg.jpg') center bottom no-repeat; background-attachment: fixed; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;}
+#stat, #newsletter { background: url('../img/berk-cover-2.jpg') center bottom no-repeat; background-attachment: fixed; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;}
 
 #stat .stat-info { font-size: 17pt; }
 #stat .stat { font-size: 100px; color: #fe4918; }
